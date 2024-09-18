@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulario de Regalo</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        input, button {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Regala al Cumpleañero</h2>
+    <form id="giftForm">
+
+        <label for="pelotero">Pelotero:</label>
+        <input type="text" id="pelotero" name="pelotero" readonly>
+
+        <label for="cumpleanero">Cumpleañero:</label>
+        <input type="text" id="cumpleanero" name="cumpleanero" placeholder="Nombre cumpleañero" required>
+
+        <label for="fechaCumple">Fecha del cumpleaños:</label>
+        <input type="date" id="fechaCumple" name="fechaCumple" placeholder="Fecha cumpleaño" required>
+
+        <label for="horaCumple">Hora del cumpleaños:</label>
+        <input type="time" id="horaCumple" name="horaCumple" placeholder="Hora cumpleaño" required>
+
+        <label for="invitado">Tu nombre:</label>
+        <input type="text" id="invitado" name="invitado" placeholder="Escribe tu nombre" required>
+
+        <label for="monto">Monto en plata:</label>
+        <input type="number" id="monto" name="monto" placeholder="Cantidad que quieres regalar" required>
+
+        <button type="submit">Enviar por WhatsApp</button>
+    </form>
+</div>
+
+<script>
+    // Función para obtener los parámetros de la URL
+    function getQueryParams() {
+        const params = {};
+        window.location.search.substring(1).split("&").forEach(function (pair) {
+            const [key, value] = pair.split("=");
+            if (key && value) {
+                params[decodeURIComponent(key)] = decodeURIComponent(value.replace(/\+/g, " "));
+            }
+        });
+        return params;
+    }
+
+    // Obtener los parámetros de la URL
+    const params = getQueryParams();
+
+    // Asignar los valores a los campos del formulario
+    document.getElementById('pelotero').value = params.pelotero || "Happy";
+    if (params.cumpleanero != null) {
+        document.getElementById('cumpleanero').value = params.cumpleanero;
+    }
+    document.getElementById('fechaCumple').value = params.fechaCumple; // Valor predeterminado
+    document.getElementById('horaCumple').value = params.horaCumple; // Valor predeterminado
+
+    // Enviar el mensaje a WhatsApp
+    document.getElementById('giftForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+
+        const cumpleanero = document.getElementById('cumpleanero').value;
+        const pelotero = document.getElementById('pelotero').value;
+        const invitado = document.getElementById('invitado').value;
+        const monto = document.getElementById('monto').value;
+        const fechaCumple = document.getElementById('fechaCumple').value;
+        const horaCumple = document.getElementById('horaCumple').value;
+
+      //  const mensaje = `Hola ${cumpleanero}, soy ${invitado}. Quiero regalarte ${monto} por tu cumpleaños. La fecha de tu fiesta es el ${fechaCumple} a las ${horaCumple}. ¡Felicidades! Pelotero: ${pelotero}.`;
+        const mensaje = `Pelotero: ${pelotero}. \n Cumpleañero: ${cumpleanero}. \n Fecha cumple: ${fechaCumple}. \n Horario: ${horaCumple}. \n Invitado: ${invitado}. \n Monto: ${monto}`;
+
+        const urlWhatsApp = `https://wa.me/542665109450?text=${encodeURIComponent(mensaje)}`;
+        window.open(urlWhatsApp, '_blank');
+    });
+</script>
+
+</body>
+</html>
