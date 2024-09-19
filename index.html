@@ -66,6 +66,7 @@
 
     <div id="qrContainer">
         <img id="qrCode" src="" alt="QR Code" style="display:none;">
+        <div id="generatedUrl"></div> <!-- Sección para mostrar la URL generada -->
     </div>
 </div>
 
@@ -104,6 +105,10 @@
         // Generar la URL con parámetros
         const url = `${baseUrl}?pelotero=${encodeURIComponent(pelotero)}&cumpleanero=${encodeURIComponent(cumpleanero)}&fechaCumple=${encodeURIComponent(fechaCumple)}&horaCumple=${encodeURIComponent(horaCumple)}`;
 
+        // Mostrar la URL generada en la página
+        const urlContainer = document.getElementById('generatedUrl');
+        urlContainer.textContent = `URL Generada: ${url}`;
+        
         // Generar el código QR
         const qrContainer = document.getElementById('qrContainer');
         const qrCodeImg = document.getElementById('qrCode');
